@@ -43,7 +43,7 @@ Requirements
 ============
 
 :Node Role: Controller, Network Controller and Compute Node
-:Nics: eth0 (172.16.1.1), eth1 (10.2.2.22)
+:Nics: eth0 (10.2.50.1), eth1 (10.2.2.22)
 
 **Note 1:** Multi node deployment is currently available in this guide, see "10. Adding a Compute Node".
 
@@ -99,7 +99,7 @@ Networking
    #Not internet connected(used for OpenStack management)
    auto eth0
    iface eth0 inet static
-   address 172.16.1.1
+   address 10.2.50.1
    netmask 255.255.255.0
 
 Please Note that in our simple architecture the DNS-nameservers and the default gateway are the same!
@@ -159,7 +159,7 @@ Or execute all of the following manually::
    CREATE DATABASE keystone;
    GRANT ALL ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'openstacktest';
-   GRANT ALL ON keystone.* TO 'keystone'@'172.16.1.1' IDENTIFIED BY 'openstacktest';
+   GRANT ALL ON keystone.* TO 'keystone'@'10.2.50.1' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON keystone.* TO 'keystone'@'10.2.2.22' IDENTIFIED BY 'openstacktest';
    FLUSH PRIVILEGES;
    quit;
@@ -170,7 +170,7 @@ Or execute all of the following manually::
    CREATE DATABASE glance;
    GRANT ALL ON glance.* TO 'glance'@'%' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON glance.* TO 'glance'@'localhost' IDENTIFIED BY 'openstacktest';
-   GRANT ALL ON glance.* TO 'glance'@'172.16.1.1' IDENTIFIED BY 'openstacktest';
+   GRANT ALL ON glance.* TO 'glance'@'10.2.50.1' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON glance.* TO 'glance'@'10.2.2.22' IDENTIFIED BY 'openstacktest';
    FLUSH PRIVILEGES;
    quit;
@@ -181,7 +181,7 @@ Or execute all of the following manually::
    CREATE DATABASE neutron;
    GRANT ALL ON neutron.* TO 'neutron'@'%' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON neutron.* TO 'neutron'@'localhost' IDENTIFIED BY 'openstacktest';
-   GRANT ALL ON neutron.* TO 'neutron'@'172.16.1.1' IDENTIFIED BY 'openstacktest';
+   GRANT ALL ON neutron.* TO 'neutron'@'10.2.50.1' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON neutron.* TO 'neutron'@'10.2.2.22' IDENTIFIED BY 'openstacktest';
    FLUSH PRIVILEGES;
    quit;
@@ -192,7 +192,7 @@ Or execute all of the following manually::
    CREATE DATABASE nova;
    GRANT ALL ON nova.* TO 'nova'@'%' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'openstacktest';
-   GRANT ALL ON nova.* TO 'nova'@'172.16.1.1' IDENTIFIED BY 'openstacktest';
+   GRANT ALL ON nova.* TO 'nova'@'10.2.50.1' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON nova.* TO 'nova'@'10.2.2.22' IDENTIFIED BY 'openstacktest';
    FLUSH PRIVILEGES;
    quit;
@@ -203,7 +203,7 @@ Or execute all of the following manually::
    CREATE DATABASE cinder;
    GRANT ALL ON cinder.* TO 'cinder'@'%' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON cinder.* TO 'cinder'@'localhost' IDENTIFIED BY 'openstacktest';
-   GRANT ALL ON cinder.* TO 'cinder'@'172.16.1.1' IDENTIFIED BY 'openstacktest';
+   GRANT ALL ON cinder.* TO 'cinder'@'10.2.50.1' IDENTIFIED BY 'openstacktest';
    GRANT ALL ON cinder.* TO 'cinder'@'10.2.2.22' IDENTIFIED BY 'openstacktest';
    FLUSH PRIVILEGES;
    quit;
@@ -239,7 +239,7 @@ Keystone
 
 * Adapt the connection attribute in the :code:`/etc/keystone/keystone.conf` to the new database::
 
-   connection = mysql://keystone:openstacktest@172.16.1.1/keystone
+   connection = mysql://keystone:openstacktest@10.2.50.1/keystone
 
 * Remove Keystone SQLite database::
 
@@ -293,7 +293,7 @@ Glance
 
    [filter:authtoken]
    paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -303,10 +303,10 @@ Glance
 * Update :code:`/etc/glance/glance-api.conf` and :code:`/etc/glance/glance-registry.conf` with::
 
    [DEFAULT]
-   sql_connection = mysql://glance:openstacktest@172.16.1.1/glance
+   sql_connection = mysql://glance:openstacktest@10.2.50.1/glance
 
    [keystone_authtoken]
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -439,7 +439,7 @@ Neutron-*
 
    [filter:authtoken]
    paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -450,7 +450,7 @@ Neutron-*
 
    #Under the database section
    [DATABASE]
-   sql_connection=mysql://neutron:openstacktest@172.16.1.1/neutron
+   sql_connection=mysql://neutron:openstacktest@10.2.50.1/neutron
 
    #Under the OVS section
    [OVS]
@@ -459,7 +459,7 @@ Neutron-*
    tunnel_id_ranges = 1:1000
    integration_bridge = br-int
    tunnel_bridge = br-tun
-   local_ip = 172.16.1.1
+   local_ip = 10.2.50.1
 
    #Firewall driver for realizing neutron security group function
    [SECURITYGROUP]
@@ -468,14 +468,14 @@ Neutron-*
 * Update :code:`/etc/neutron/metadata_agent.ini`::
 
    # The Neutron user information for accessing the Neutron API.
-   auth_url = http://172.16.1.1:35357/v2.0
+   auth_url = http://10.2.50.1:35357/v2.0
    auth_region = RegionOne
    admin_tenant_name = service
    admin_user = neutron
    admin_password = openstacktest
 
    # IP address used by Nova metadata server
-   nova_metadata_ip = 172.16.1.1
+   nova_metadata_ip = 10.2.50.1
    
 
    # TCP Port used by Nova metadata server
@@ -486,10 +486,10 @@ Neutron-*
 * Edit your :code:`/etc/neutron/neutron.conf`::
 
    #RabbitMQ IP
-   rabbit_host = 172.16.1.1
+   rabbit_host = 10.2.50.1
 
    [keystone_authtoken]
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -498,7 +498,7 @@ Neutron-*
    signing_dir = /var/lib/neutron/keystone-signing
    
    [DATABASE]
-   connection = mysql://neutron:openstacktest@172.16.1.1/neutron
+   connection = mysql://neutron:openstacktest@10.2.50.1/neutron
 
 
 * Edit your :code:`/etc/neutron/l3_agent.ini`::
@@ -511,7 +511,7 @@ Neutron-*
    admin_tenant_name = service
    admin_user = neutron
    admin_password = openstacktest
-   auth_url = http://172.16.1.1:35357/v2.0
+   auth_url = http://10.2.50.1:35357/v2.0
    l3_agent_manager = neutron.agent.l3_agent.L3NATAgentWithStateReport
    root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
    interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
@@ -527,7 +527,7 @@ Neutron-*
    admin_tenant_name = service
    admin_user = neutron
    admin_password = openstacktest
-   auth_url = http://172.16.1.1:35357/v2.0
+   auth_url = http://10.2.50.1:35357/v2.0
    dhcp_agent_manager = neutron.agent.dhcp_agent.DhcpAgentWithStateReport
    root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
    state_path = /var/lib/neutron
@@ -632,7 +632,7 @@ Nova-*
 
    [filter:authtoken]
    paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -651,9 +651,9 @@ Nova-*
    verbose=True
    api_paste_config=/etc/nova/api-paste.ini
    compute_scheduler_driver=nova.scheduler.simple.SimpleScheduler
-   rabbit_host=172.16.1.1
-   nova_url=http://172.16.1.1:8774/v1.1/
-   sql_connection=mysql://nova:openstacktest@172.16.1.1/nova
+   rabbit_host=10.2.50.1
+   nova_url=http://10.2.50.1:8774/v1.1/
+   sql_connection=mysql://nova:openstacktest@10.2.50.1/nova
    root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf
 
    # Auth
@@ -661,24 +661,24 @@ Nova-*
    auth_strategy=keystone
 
    # Imaging service
-   glance_api_servers=172.16.1.1:9292
+   glance_api_servers=10.2.50.1:9292
    image_service=nova.image.glance.GlanceImageService
 
    # Vnc configuration
    novnc_enabled=true
    novncproxy_base_url=http://10.2.2.22:6080/vnc_auto.html
    novncproxy_port=6080
-   vncserver_proxyclient_address=172.16.1.1
+   vncserver_proxyclient_address=10.2.50.1
    vncserver_listen=0.0.0.0
 
    # Network settings
    network_api_class=nova.network.neutronv2.api.API
-   neutron_url=http://172.16.1.1:9696
+   neutron_url=http://10.2.50.1:9696
    neutron_auth_strategy=keystone
    neutron_admin_tenant_name=service
    neutron_admin_username=neutron
    neutron_admin_password=openstacktest
-   neutron_admin_auth_url=http://172.16.1.1:35357/v2.0
+   neutron_admin_auth_url=http://10.2.50.1:35357/v2.0
    libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
    linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
    #If you want Neutron + Nova Security groups
@@ -690,7 +690,7 @@ Nova-*
    #Metadata
    service_neutron_metadata_proxy = True
    neutron_metadata_proxy_shared_secret = helloOpenStack
-   metadata_host = 172.16.1.1
+   metadata_host = 10.2.50.1
    metadata_listen = 0.0.0.0
    metadata_listen_port = 8775
    
@@ -767,7 +767,7 @@ Cinder
    service_protocol = http
    service_host = 10.2.2.22
    service_port = 5000
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -779,7 +779,7 @@ Cinder
 
    [DEFAULT]
    rootwrap_config=/etc/cinder/rootwrap.conf
-   sql_connection = mysql://cinder:openstacktest@172.16.1.1/cinder
+   sql_connection = mysql://cinder:openstacktest@10.2.50.1/cinder
    api_paste_config = /etc/cinder/api-paste.ini
    iscsi_helper=ietadm
    volume_name_template = volume-%s
@@ -1059,7 +1059,7 @@ It could be necessary to reboot your system in case you have a kernel upgrade
    sed -i 's/server 3.ubuntu.pool.ntp.org/#server 3.ubuntu.pool.ntp.org/g' /etc/ntp.conf
 
    #Set the compute node to follow up your conroller node
-   sed -i 's/server ntp.ubuntu.com/server 172.16.1.1/g' /etc/ntp.conf
+   sed -i 's/server ntp.ubuntu.com/server 10.2.50.1/g' /etc/ntp.conf
 
    service ntp restart
 
@@ -1166,7 +1166,7 @@ Attention: gateway to internet is essential to install all packets so we configu
 
    #Under the database section
    [DATABASE]
-   connection = mysql://neutron:openstacktest@172.16.1.1/neutron
+   connection = mysql://neutron:openstacktest@10.2.50.1/neutron
 
    #Under the OVS section
    [OVS]
@@ -1185,10 +1185,10 @@ Attention: gateway to internet is essential to install all packets so we configu
 
 * Edit the main Neutron configuration file (/etc/neutron/neutron.conf)::
 
-   rabbit_host = 172.16.1.1
+   rabbit_host = 10.2.50.1
    
    [keystone_authtoken]
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -1197,7 +1197,7 @@ Attention: gateway to internet is essential to install all packets so we configu
    signing_dir = /var/lib/neutron/keystone-signing
 
    [DATABASE]
-   connection = mysql://neutron:openstacktest@172.16.1.1/neutron
+   connection = mysql://neutron:openstacktest@10.2.50.1/neutron
 
 * Restart all the services::
 
@@ -1222,7 +1222,7 @@ Meanwhile / etc / nova / nova-compute.conf configuration file libvirt_type = qem
 
    [filter:authtoken]
    paste.filter_factory = keystoneclient.middleware.auth_token:filter_factory
-   auth_host = 172.16.1.1
+   auth_host = 10.2.50.1
    auth_port = 35357
    auth_protocol = http
    admin_tenant_name = service
@@ -1252,9 +1252,9 @@ Meanwhile / etc / nova / nova-compute.conf configuration file libvirt_type = qem
    verbose=True
    api_paste_config=/etc/nova/api-paste.ini
    compute_scheduler_driver=nova.scheduler.simple.SimpleScheduler
-   rabbit_host=172.16.1.1
-   nova_url=http://172.16.1.1:8774/v1.1/
-   sql_connection=mysql://nova:openstacktest@172.16.1.1/nova
+   rabbit_host=10.2.50.1
+   nova_url=http://10.2.50.1:8774/v1.1/
+   sql_connection=mysql://nova:openstacktest@10.2.50.1/nova
    root_helper=sudo nova-rootwrap /etc/nova/rootwrap.conf
 
    # Auth
@@ -1262,7 +1262,7 @@ Meanwhile / etc / nova / nova-compute.conf configuration file libvirt_type = qem
    auth_strategy=keystone
 
    # Imaging service
-   glance_api_servers=172.16.1.1:9292
+   glance_api_servers=10.2.50.1:9292
    image_service=nova.image.glance.GlanceImageService
 
    # Vnc configuration
@@ -1274,12 +1274,12 @@ Meanwhile / etc / nova / nova-compute.conf configuration file libvirt_type = qem
 
    # Network settings
    network_api_class=nova.network.neutronv2.api.API
-   neutron_url=http://172.16.1.1:9696
+   neutron_url=http://10.2.50.1:9696
    neutron_auth_strategy=keystone
    neutron_admin_tenant_name=service
    neutron_admin_username=neutron
    neutron_admin_password=openstacktest
-   neutron_admin_auth_url=http://172.16.1.1:35357/v2.0
+   neutron_admin_auth_url=http://10.2.50.1:35357/v2.0
    libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
    linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
    #If you want Neutron + Nova Security groups

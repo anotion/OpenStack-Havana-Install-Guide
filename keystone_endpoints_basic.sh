@@ -14,7 +14,7 @@
 #
 
 # Host address
-HOST_IP=172.16.1.1
+HOST_IP=10.2.50.1
 EXT_HOST_IP=10.2.2.22
 
 # MySQL definitions
