@@ -327,15 +327,15 @@ Glance
 * Fix the UTF-8 bug with the tables, see
   https://ask.openstack.org/en/question/26373/error-upgrading-database-schema-error-tables-have-non-utf8-collation-please-make-sure-all-tables-are-charsetutf8/
 
-  ```
-  DB="glance"
-  (
-      echo 'ALTER DATABASE `'"$DB"'` CHARACTER SET utf8 COLLATE utf8_general_ci;'
-      mysql "$DB" -e "SHOW TABLES" --batch --skip-column-names \
-      | xargs -I{} echo 'ALTER TABLE `'{}'` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;'
-  ) \
-  | mysql "$DB"
-  ```
+```
+DB="glance"
+(
+    echo 'ALTER DATABASE `'"$DB"'` CHARACTER SET utf8 COLLATE utf8_general_ci;'
+    mysql "$DB" -e "SHOW TABLES" --batch --skip-column-names \
+    | xargs -I{} echo 'ALTER TABLE `'{}'` CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;'
+) \
+| mysql "$DB"
+```
 
 * Synchronize the glance database::
 
