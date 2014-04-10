@@ -325,7 +325,7 @@ Glance
    service glance-api restart; service glance-registry restart
 
 * Fix the UTF-8 bug with the tables, see
-  https://ask.openstack.org/en/question/26373/error-upgrading-database-schema-error-tables-have-non-utf8-collation-please-make-sure-all-tables-are-charsetutf8/
+  https://ask.openstack.org/en/question/26373/error-upgrading-database-schema-error-tables-have-non-utf8-collation-please-make-sure-all-tables-are-charsetutf8/ ::
 
    DB="glance"
    (
