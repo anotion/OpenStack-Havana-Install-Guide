@@ -714,8 +714,8 @@ Nova-*
    libvirt_vif_driver=nova.virt.libvirt.vif.LibvirtHybridOVSBridgeDriver
    linuxnet_interface_driver=nova.network.linux_net.LinuxOVSInterfaceDriver
    #If you want Neutron + Nova Security groups
-   #firewall_driver=nova.virt.firewall.NoopFirewallDriver
-   #security_group_api=neutron
+   firewall_driver=nova.virt.firewall.NoopFirewallDriver
+   security_group_api=neutron
    #If you want Nova Security groups only, comment the two lines above and uncomment line -1-.
    #-1-firewall_driver=nova.virt.libvirt.firewall.IptablesFirewallDriver
    
