@@ -485,8 +485,20 @@ Neutron-*
 
 * Edit your :code:`/etc/neutron/neutron.conf`::
 
+   [DEFAULT] 
+   ...
+   service_plugins = neutron.services.l3_router.l3_router_plugin.L3RouterPlugin
+   ...
    #RabbitMQ IP
    rabbit_host = 10.2.50.1
+   ...
+   notify_nova_on_port_status_changes = True
+   notify_nova_on_port_data_changes = True
+   nova_url = http://10.2.50.1:8774/v2
+   nova_admin_username = nova
+   nova_admin_tenant_id = %SERVICE_ADMIN_TENANT_ID%
+   nova_admin_password = openstacktest
+   nova_admin_auth_url = http://10.2.50.1:35357/v2.0
 
    [keystone_authtoken]
    auth_host = 10.2.50.1
