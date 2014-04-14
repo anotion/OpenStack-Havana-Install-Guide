@@ -548,6 +548,26 @@ Neutron-*
 
    rm /var/lib/neutron/neutron.sqlite
 
+* Switch to ML2's config file::
+
+   [ -h /etc/neutron/plugin.ini ] && unlink /etc/neutron/plugin.ini
+   ln -s /etc/neutron/plugins/ml2/ml2_conf.ini /etc/neutron/plugin.ini
+
+* Configure ML2: :code:`/etc/neutron/plugins/ml2/ml2_conf.ini`::
+
+   [ml2]
+   mechanism_drivers openvswitch
+   tenant_network_types gre
+
+   [ml2_type_gre]
+   tunnel_id_ranges = 1:1000
+
+   [DATABASE]
+   connection = mysql://neutron:openstacktest@10.2.50.1/neutron
+
+   [SECURITYGROUP]
+   firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
+
 * Restart all neutron services::
 
    cd /etc/init.d/; for i in $( ls neutron-* ); do sudo service $i restart; cd /root/; done
