@@ -510,7 +510,7 @@ Neutron-*
    signing_dir = /var/lib/neutron/keystone-signing
    
    [DATABASE]
-   connection = mysql://neutron:openstacktest@10.2.50.1/neutron
+   # connection = mysql://neutron:openstacktest@10.2.50.1/neutron
 
 
 * Edit your :code:`/etc/neutron/l3_agent.ini`::
@@ -544,10 +544,6 @@ Neutron-*
    root_helper = sudo neutron-rootwrap /etc/neutron/rootwrap.conf
    state_path = /var/lib/neutron
 
-* Remove Neutron's SQLite database::
-
-   rm /var/lib/neutron/neutron.sqlite
-
 * Switch to ML2's config file::
 
    [ -h /etc/neutron/plugin.ini ] && unlink /etc/neutron/plugin.ini
@@ -565,6 +561,14 @@ Neutron-*
    [DATABASE]
    connection = mysql://neutron:openstacktest@10.2.50.1/neutron
 
+   [ovs]
+   enable_tunneling = True
+   local_ip = 10.2.50.1
+    
+   [agent]
+   tunnel_types = gre
+   root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
+
    [SECURITYGROUP]
    firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
 
@@ -580,6 +584,10 @@ Neutron-*
    then check all neutron agents:
    neutron agent-list
    (hopefully you'll enjoy smiling faces :-) )
+
+* Remove Neutron's SQLite database::
+
+   rm /var/lib/neutron/neutron.sqlite
 
 
 Nova
