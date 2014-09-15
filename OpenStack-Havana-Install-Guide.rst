@@ -790,13 +790,13 @@ Cinder
 
    apt-get install -y cinder-api cinder-scheduler cinder-volume iscsitarget open-iscsi iscsitarget-dkms
 
-**Note 1:** We are configuring and installing iscsitarget with ietadm for cinder volume management, however, ubuntu has
-a tendancy to install tgt along with cincer-volume, which conflicts. Everything will seem okay, except volumes will not
+**Note:** We are configuring and installing iscsitarget with ietadm for cinder volume management, however, ubuntu has
+a tendancy to install tgt along with cinder-volume, which conflicts. Everything will seem okay, except volumes will not
 attach. If tgt is installed, it NEEDS TO BE REMOVED.
 
 * Remove tgt if installed (without removing cinder-volume)::
 
-   sudo dpkg -r --force-depends "package"
+   sudo dpkg -r --force-depends "tgt"
 
 * Configure the iscsi services::
 
